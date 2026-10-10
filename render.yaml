@@ -1,0 +1,24 @@
+databases:
+  - name: ovo-db
+    plan: free
+    databaseName: ovo
+    user: ovo
+
+services:
+  - type: web
+    name: ovo-app
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: APP_PASSWORD
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ovo-db
+          property: connectionString
